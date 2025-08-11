@@ -1,0 +1,392 @@
+{
+  "name": "Lead Qualification",
+  "nodes": [
+    {
+      "parameters": {
+        "formId": "a71ExmPJ"
+      },
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1184,
+        -80
+      ],
+      "id": "68be6ea9-0bc4-47ac-848f-0bd1c8fe5dcc",
+      "name": "Typeform Trigger",
+      "webhookId": "f919bbb7-0387-4952-ba20-80c260067d7b",
+      "credentials": {
+        "typeformApi": {
+          "id": "htE48VJbSIkVImRs",
+          "name": "Typeform account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d45f3235-d03f-471e-87dd-0d2cb138dda5",
+              "leftValue": "={{ ( ($json['Company Size'] !== '1-19') && ['Rs 1,00,000 - 2,00,000', 'Rs 2,00,000 -5,00,000', 'Rs 5,00,000+'].includes($json.Budget) ) || ($json.Country !== 'India') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -960,
+        -80
+      ],
+      "id": "c0b12aae-abed-4d2e-adf6-82c5866b8664",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8",
+          "mode": "list",
+          "cachedResultName": "New Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Company": "={{ $json.Company }}",
+            "Company Size": "={{ $json['Company Size'] }}",
+            "Budget": "={{ $json.Budget }}",
+            "Country": "={{ $json.Country }}",
+            "Name": "={{ $json['First name'] }} {{ $json['Last name'] }}",
+            "Status": "Qualified"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -736,
+        -368
+      ],
+      "id": "91bef0e0-6d04-4112-8a98-c4801913a0b0",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "31J5rbLDczaIenPp",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8",
+          "mode": "list",
+          "cachedResultName": "New Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ssElDXGGsHVbV-QX2c9rtHg6v3c9wDAxq21hntc8CR8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Company": "={{ $json.Company }}",
+            "Company Size": "={{ $json['Company Size'] }}",
+            "Budget": "={{ $json.Budget }}",
+            "Country": "={{ $json.Country }}",
+            "Name": "={{ $json['First name'] }} {{ $json['Last name'] }}",
+            "Status": "Not Qualified"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -736,
+        208
+      ],
+      "id": "0addafac-ae3e-42e0-a76a-985a6ca017a6",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "31J5rbLDczaIenPp",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://your-teams-webhook-url.com/placeholder",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"text\": \"A new lead has been qualified!\",\n    \"sections\": [\n        {\n            \"activityTitle\": \"{{$json.Company}}\",\n            \"facts\": [\n                {\n                    \"name\": \"Contact Name\",\n                    \"value\": \"{{$json['First name']}} {{$json['Last name']}}\"\n                },\n                {\n                    \"name\": \"Email\",\n                    \"value\": \"{{$json.Email}}\"\n                },\n                {\n                    \"name\": \"Country\",\n                    \"value\": \"{{$json.Country}}\"\n                }\n            ]\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -736,
+        -176
+      ],
+      "id": "3b3bcce1-a1c9-4b07-9f43-4bc0da35204a",
+      "name": "HTTP Request",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "okaysumit07@gmail.com",
+        "subject": "=New Qualified Lead: {{ $json.Company }}",
+        "message": "=<p>A new lead has been qualified:</p> <ul>     <li><strong>Name:</strong> {{ $json['First name'] }} {{ $json['Last name'] }}</li>     <li><strong>Company:</strong> {{ $json.Company }}</li>     <li><strong>Email:</strong> {{ $json.Email }}</li>     <li><strong>Budget:</strong> {{ $json.Budget }}</li>     <li><strong>Country:</strong> {{ $json.Country }}</li> </ul>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -736,
+        16
+      ],
+      "id": "b1f9f312-a76c-4fcd-abea-16cffc159d95",
+      "name": "Send a message",
+      "webhookId": "15b27d72-def3-4dba-8c00-17d274059b05",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5NSF4XZiZGCBeq8z",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d9bd3c5d-028c-4ae8-91ef-a1f75c072394",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "72c04a46c8d9da67194384b75230ce1f9f96ea080b44a1a7e51038c0ddb32ac7"
+  },
+  "id": "fXLXVeIymvHoWlBe",
+  "tags": []
+}
